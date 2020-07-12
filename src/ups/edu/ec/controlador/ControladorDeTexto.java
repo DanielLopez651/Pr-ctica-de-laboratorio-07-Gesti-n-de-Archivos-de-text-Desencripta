@@ -17,7 +17,6 @@ import java.io.IOException;
  */
 public class ControladorDeTexto {
 
-    private String ruta;
     private File fichero;
 
     public ControladorDeTexto() {
@@ -83,4 +82,34 @@ public class ControladorDeTexto {
         }
     }
 
+    public String desencriptar(String rutaAbsoluta) throws IOException {
+        String var = "";
+        try {
+
+            FileReader ficheroOrigen = new FileReader(rutaAbsoluta);
+            BufferedReader archivoLectura = new BufferedReader(ficheroOrigen);
+
+            int valor = archivoLectura.read();
+
+            while (valor != -1) {
+                char aux = (char) valor;
+                var = var.concat(Character.toString(aux));
+                valor = archivoLectura.read();
+            }
+
+            archivoLectura.close();
+
+        } catch (FileNotFoundException ex2) {
+            System.out.println("File noencontrado");
+        }
+
+        char arrayD[] = var.toCharArray();
+        for (int i = 0; i < arrayD.length; i++) {
+            arrayD[i] = (char) (arrayD[i] - (char) 5);
+        }
+        String desencriptado = String.valueOf(arrayD);
+        System.out.println(desencriptado);
+
+        return desencriptado;
+    }
 }
